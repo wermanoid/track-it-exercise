@@ -1,0 +1,136 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`issue-avatar: should render with #darkorange background 1`] = `
+.emotion-0.emotion-0 {
+  background-color: darkorange;
+}
+
+<IssueAvatar
+  status="Pending"
+>
+  <WithStyles(Avatar)
+    className="emotion-0 emotion-1"
+    status="Pending"
+  >
+    <Avatar
+      className="emotion-0 emotion-1"
+      classes={
+        Object {
+          "colorDefault": "MuiAvatar-colorDefault-2",
+          "img": "MuiAvatar-img-3",
+          "root": "MuiAvatar-root-1",
+        }
+      }
+      component="div"
+      status="Pending"
+    >
+      <div
+        className="MuiAvatar-root-1 MuiAvatar-colorDefault-2 emotion-0 emotion-1"
+        status="Pending"
+      >
+        C
+      </div>
+    </Avatar>
+  </WithStyles(Avatar)>
+</IssueAvatar>
+`;
+
+exports[`issue-avatar: should render with #eee background 1`] = `
+.emotion-0.emotion-0 {
+  background-color: #eee;
+}
+
+<IssueAvatar>
+  <WithStyles(Avatar)
+    className="emotion-0 emotion-1"
+  >
+    <Avatar
+      className="emotion-0 emotion-1"
+      classes={
+        Object {
+          "colorDefault": "MuiAvatar-colorDefault-2",
+          "img": "MuiAvatar-img-3",
+          "root": "MuiAvatar-root-1",
+        }
+      }
+      component="div"
+    >
+      <div
+        className="MuiAvatar-root-1 MuiAvatar-colorDefault-2 emotion-0 emotion-1"
+      >
+        C
+      </div>
+    </Avatar>
+  </WithStyles(Avatar)>
+</IssueAvatar>
+`;
+
+exports[`issue-avatar: should render with #green background 1`] = `
+.emotion-0.emotion-0 {
+  background-color: green;
+}
+
+<IssueAvatar
+  status="Closed"
+>
+  <WithStyles(Avatar)
+    className="emotion-0 emotion-1"
+    status="Closed"
+  >
+    <Avatar
+      className="emotion-0 emotion-1"
+      classes={
+        Object {
+          "colorDefault": "MuiAvatar-colorDefault-2",
+          "img": "MuiAvatar-img-3",
+          "root": "MuiAvatar-root-1",
+        }
+      }
+      component="div"
+      status="Closed"
+    >
+      <div
+        className="MuiAvatar-root-1 MuiAvatar-colorDefault-2 emotion-0 emotion-1"
+        status="Closed"
+      >
+        C
+      </div>
+    </Avatar>
+  </WithStyles(Avatar)>
+</IssueAvatar>
+`;
+
+exports[`issue-avatar: should render with #red background 1`] = `
+.emotion-0.emotion-0 {
+  background-color: red;
+}
+
+<IssueAvatar
+  status="Open"
+>
+  <WithStyles(Avatar)
+    className="emotion-0 emotion-1"
+    status="Open"
+  >
+    <Avatar
+      className="emotion-0 emotion-1"
+      classes={
+        Object {
+          "colorDefault": "MuiAvatar-colorDefault-2",
+          "img": "MuiAvatar-img-3",
+          "root": "MuiAvatar-root-1",
+        }
+      }
+      component="div"
+      status="Open"
+    >
+      <div
+        className="MuiAvatar-root-1 MuiAvatar-colorDefault-2 emotion-0 emotion-1"
+        status="Open"
+      >
+        C
+      </div>
+    </Avatar>
+  </WithStyles(Avatar)>
+</IssueAvatar>
+`;
