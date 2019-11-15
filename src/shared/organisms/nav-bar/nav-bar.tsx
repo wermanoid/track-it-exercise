@@ -16,7 +16,7 @@ export interface NavBarProps {
   routing?: RouterStore;
 }
 
-export interface NavBarState {
+interface NavBarState {
   activeRoute: string;
 }
 

@@ -17,19 +17,17 @@ function* fakeStore(): IterableIterator<Issue> {
   }
 }
 
+const aggregateTo = <T>(gen: IterableIterator<T>, acc: T[]): T[] => {
+  const { value, done } = gen.next();
+  if (!done) return aggregateTo(gen, [...acc, value]);
+  return acc;
+};
+
 export class DataStorage {
   private issues: Issue[] = [];
 
   constructor(generator: IterableIterator<Issue> = fakeStore()) {
-    while (true) {
-      const { value, done } = generator.next();
-
-      if (done) {
-        break;
-      }
-
-      this.issues.push(value);
-    }
+    this.issues = aggregateTo(generator, []);
   }
 
   public query() {

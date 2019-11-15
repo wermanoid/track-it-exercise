@@ -1,3 +1,4 @@
+import React from 'react';
 import { date, select, text } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react';
 

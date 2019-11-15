@@ -1,3 +1,4 @@
+import React from 'react';
 import { AppBar, Tabs, Toolbar } from '@material-ui/core';
 import { text } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react';

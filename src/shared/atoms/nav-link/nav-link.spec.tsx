@@ -1,3 +1,4 @@
+import React from 'react';
 import { mount } from 'enzyme';
 
 import NavLink from './nav-link';

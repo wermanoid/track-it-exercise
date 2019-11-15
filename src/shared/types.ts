@@ -19,7 +19,7 @@ export interface Issue {
 export interface IssueStatus {
   status: IssueState;
   label: string;
-  icon: React.ComponentType<any>;
+  icon: React.ComponentType<{}>;
 }
 
 export type CreateIssueArgs = Pick<Issue, 'title'> &

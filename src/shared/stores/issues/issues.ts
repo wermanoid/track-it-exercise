@@ -4,7 +4,7 @@ import {
   IssueState,
   UpdateIssueArgs,
 } from '#shared/types';
-import { find, forEach, keys, map, pipe } from 'lodash/fp';
+import { find, forEach, keys, map } from 'lodash/fp';
 import { action, observable } from 'mobx';
 import { ApolloSource } from '../data-source';
 
@@ -25,7 +25,7 @@ export class IssuesStore {
           (issue: any) =>
             (({
               ...issue,
-              status: IssueState[issue.status],
+              status: (IssueState as any)[issue.status],
             } as unknown) as Issue),
           data.data.issues
         );
@@ -41,12 +41,9 @@ export class IssuesStore {
       } as unknown) as UpdateIssueArgs)
       .then(() => {
         const toUpdate = find({ id: issue.id! }, this.issues)!;
-        pipe<UpdateIssueArgs, string[], void>(
-          keys,
-          forEach((key: string) => {
-            (toUpdate as any)[key] = (issue as any)[key];
-          })
-        )(issue);
+        forEach((key: string) => {
+          (toUpdate as any)[key] = (issue as any)[key];
+        }, keys(toUpdate));
         return toUpdate;
       })
       .catch(err => error(err));

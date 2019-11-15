@@ -1,10 +1,11 @@
+import React from 'react';
 import { action } from '@storybook/addon-actions';
 import { text } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react';
 import { RouterStore } from 'mobx-react-router';
 import { MemoryRouter } from 'react-router-dom';
 
-import NavBar from './nav-bar';
+import NavBar, { NavBarProps } from './nav-bar';
 
 storiesOf('[Organism]|NavBar', module)
   .addDecorator(story => (
@@ -15,5 +16,10 @@ storiesOf('[Organism]|NavBar', module)
       push: action('Navigate to clicked'),
     } as unknown) as RouterStore;
 
-    return <NavBar title={text('Title', 'TracIt')} routing={routing} />;
+    const props: NavBarProps = {
+      title: text('Title', 'TracIt'),
+      routing,
+    };
+
+    return <NavBar {...props} />;
   });

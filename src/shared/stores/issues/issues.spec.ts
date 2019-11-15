@@ -24,7 +24,7 @@ const expectedStub = map(
   (issue: Issue) =>
     (({
       ...issue,
-      status: IssueState[issue.status as any],
+      status: (IssueState as any)[issue.status],
     } as unknown) as Issue),
   dataStub
 );

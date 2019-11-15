@@ -42,13 +42,10 @@ export default async (req: Request, res: Response, next: NextFunction) => {
 
   const stream = renderToNodeStream(app);
 
-  stream.pipe(
-    res,
-    { end: false }
-  );
+  stream.pipe(res, { end: false });
   stream.on('end', () => {
     res.end(`</div>
-        <style id="jss-server-side">${css}</style>
+        <style id="jss-server-side">${css()}</style>
         <script>${stringify('__INITIAL_STATE__', stores.toObject())}</script>
         <script>${stringify('__APOLLO_STATE__', client.extract())}</script>
       </body>

@@ -1,3 +1,4 @@
+import React from 'react';
 import { css, Global } from '@emotion/core';
 import { hot } from 'react-hot-loader/root';
 

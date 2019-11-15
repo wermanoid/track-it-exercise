@@ -47,7 +47,7 @@ class Stepper extends React.Component<StatusStepperProps, StatusStepperState> {
     };
   };
 
-  public componentWillReceiveProps(next: StatusStepperProps) {
+  public UNSAFE_componentWillReceiveProps(next: StatusStepperProps) {
     const activeStep = findIndex({ status: next.status }, steps);
     this.setState(this.getNextState(activeStep));
   }

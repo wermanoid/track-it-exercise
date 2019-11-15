@@ -13,9 +13,11 @@ const DashboardMobx = inject(({ issues: issuesStore, routing }) => ({
     routing.push(`${routing.location.pathname}${ISSUE}/${id}`);
   },
 }))(
-  observer(Dashboard as React.ComponentType<
-    Omit<DashboardProps, 'issues' | 'openIssue'>
-  >)
+  observer(
+    Dashboard as React.ComponentType<
+      Omit<DashboardProps, 'issues' | 'openIssue'>
+    >
+  )
 );
 
 export default DashboardMobx;

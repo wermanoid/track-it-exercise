@@ -1,19 +1,18 @@
+import React from 'react';
 import blue from '@material-ui/core/colors/blue';
 import {
-  createGenerateClassName,
   createMuiTheme,
-  MuiThemeProvider,
+  ServerStyleSheets,
+  ThemeProvider,
 } from '@material-ui/core/styles';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { ApolloClient } from 'apollo-client';
 import { createHttpLink } from 'apollo-link-http';
 import config from 'config';
-import { SheetsRegistry } from 'jss';
 import { find } from 'lodash/fp';
 import { Provider } from 'mobx-react';
 import fetch from 'node-fetch';
 import { ApolloProvider, getDataFromTree } from 'react-apollo';
-import JssProvider from 'react-jss/lib/JssProvider';
 import { matchPath, StaticRouter } from 'react-router';
 
 import Application from '#shared/App';
@@ -24,25 +23,16 @@ const themeMUI = {
   palette: {
     primary: blue,
   },
-  typography: {
-    useNextVariants: true,
-  },
 };
 
 const port = Number(config.get('port'));
 
 export const renderApp = async (url: string) => {
   // Create a sheetsRegistry instance.
-  const sheetsRegistry = new SheetsRegistry();
-
-  // Create a sheetsManager instance.
-  const sheetsManager = new Map();
+  const sheets = new ServerStyleSheets();
 
   // Create a theme instance.
   const theme = createMuiTheme(themeMUI);
-
-  // Create a new class name generator.
-  const generateClassName = createGenerateClassName();
 
   const client = new ApolloClient({
     ssrMode: true,
@@ -65,19 +55,14 @@ export const renderApp = async (url: string) => {
   };
 
   // Render the component to a string.
-  const app = (
+  const app = sheets.collect(
     <Provider {...stores}>
       <ApolloProvider client={client}>
-        <JssProvider
-          registry={sheetsRegistry}
-          generateClassName={generateClassName}
-        >
-          <MuiThemeProvider theme={theme} sheetsManager={sheetsManager}>
-            <StaticRouter location={url}>
-              <Application />
-            </StaticRouter>
-          </MuiThemeProvider>
-        </JssProvider>
+        <ThemeProvider theme={theme}>
+          <StaticRouter location={url}>
+            <Application />
+          </StaticRouter>
+        </ThemeProvider>
       </ApolloProvider>
     </Provider>
   );
@@ -85,7 +70,7 @@ export const renderApp = async (url: string) => {
   await getDataFromTree(app);
 
   // Pegue o CSS do nosso sheetsRegistry.
-  const css = sheetsRegistry;
+  const css = () => sheets.toString();
 
   const status = find(r => matchPath(url, r), routes) ? 200 : 404;
 

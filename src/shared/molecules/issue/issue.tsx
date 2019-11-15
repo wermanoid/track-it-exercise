@@ -11,7 +11,7 @@ import { IssueState } from '#shared/types';
 export interface IssueProps {
   id: string;
   title: string;
-  created: string | Date;
+  created: string | number | Date;
   status: IssueState;
   onEdit?: (id: string) => void;
 }

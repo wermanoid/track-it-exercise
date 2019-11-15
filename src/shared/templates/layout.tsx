@@ -1,4 +1,4 @@
-import { jsx } from '@emotion/core';
+import React from 'react';
 
 export interface LayoutProps {
   header?: React.ComponentType;
@@ -14,11 +14,11 @@ const Layout: React.SFC<LayoutProps> = ({ children, header, footer }) => (
       flexDirection: 'column',
     }}
   >
-    {header && <section>{jsx(header, null)}</section>}
+    {header && <section>{React.createElement(header, null)}</section>}
     <section css={{ flex: '1', overflow: 'auto' }}>
       <div>
         {children}
-        {footer && jsx(footer, null)}
+        {footer && React.createElement(footer, null)}
       </div>
     </section>
   </div>

@@ -2,7 +2,7 @@
   "compilerOptions": {
     "noEmit": true,
     "strict": true,
-    "jsx": "preserve",
+    "jsx": "react",
     "target": "esnext",
     "module": "esnext",
     "moduleResolution": "node",
@@ -16,7 +16,7 @@
     "noImplicitThis": true,
     "noUnusedLocals": true,
     "removeComments": true,
-    "noImplicitAny": true,
+    "noImplicitAny": false,
     "skipLibCheck": true,
     "allowJs": true,
     "lib": ["es6", "dom", "esnext"],
