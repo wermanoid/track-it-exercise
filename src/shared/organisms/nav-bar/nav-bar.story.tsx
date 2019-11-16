@@ -14,6 +14,9 @@ storiesOf('[Organism]|NavBar', module)
   .add('default', () => {
     const routing = ({
       push: action('Navigate to clicked'),
+      location: {
+        pathname: '',
+      },
     } as unknown) as RouterStore;
 
     const props: NavBarProps = {

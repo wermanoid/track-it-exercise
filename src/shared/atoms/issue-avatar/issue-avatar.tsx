@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
-import { Avatar } from '@material-ui/core';
-import { AvatarProps } from '@material-ui/core/Avatar';
+import Avatar, { AvatarProps } from '@material-ui/core/Avatar';
 
 import { IssueState } from '#shared/types';
 
@@ -17,13 +16,12 @@ export interface IssueAvatarProps extends AvatarProps {
 const mapBackground = ({ status }: IssueAvatarProps) =>
   status ? stateToHighlightColor[status] : '#eee';
 
-export const IssueAvatar = styled<
-  React.ComponentType<AvatarProps>,
-  { status: IssueState }
->(Avatar)`
+export const IssueAvatar: React.ComponentType<IssueAvatarProps> = styled(
+  Avatar
+)`
   && {
     background-color: ${mapBackground};
   }
-` as React.ComponentType<IssueAvatarProps>;
+`;
 
 export default IssueAvatar;

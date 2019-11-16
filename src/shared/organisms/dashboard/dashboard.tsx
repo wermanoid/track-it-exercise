@@ -13,30 +13,23 @@ export interface DashboardProps {
   openIssue: (id: string) => () => void;
 }
 
-const Dashboard: React.SFC<DashboardProps> = ({ issues, openIssue }) => {
-  return (
-    <div css={{ padding: '5px' }}>
-      <GridList
-        cellHeight={86}
-        cols={3}
-        css={{ background: '#eeeeee', margin: 0 }}
-      >
-        {map((issue: Issue) => {
-          return (
-            <GridListTile cols={1} key={issue.id}>
-              <Link
-                href={`/issue/${issue.id}`}
-                css={{ textDecoration: 'none', cursor: 'pointer' }}
-                onClick={openIssue(issue.id)}
-              >
-                <IssueComponent {...issue} />
-              </Link>
-            </GridListTile>
-          );
-        }, issues)}
-      </GridList>
-    </div>
-  );
-};
+const Dashboard: React.SFC<DashboardProps> = ({ issues, openIssue }) => (
+  <GridList cellHeight={86} cols={3}>
+    {map(
+      (issue: Issue) => (
+        <GridListTile cols={1} key={issue.id}>
+          <Link
+            href={`/issue/${issue.id}`}
+            css={{ textDecoration: 'none', cursor: 'pointer' }}
+            onClick={openIssue(issue.id)}
+          >
+            <IssueComponent {...issue} />
+          </Link>
+        </GridListTile>
+      ),
+      issues
+    )}
+  </GridList>
+);
 
 export default Dashboard;

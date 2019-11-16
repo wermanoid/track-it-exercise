@@ -8,30 +8,32 @@ exports[`issue-avatar: should render with #darkorange background 1`] = `
 <IssueAvatar
   status="Pending"
 >
-  <WithStyles(Avatar)
+  <WithStyles(ForwardRef(Avatar))
     className="emotion-0 emotion-1"
     status="Pending"
   >
-    <Avatar
+    <ForwardRef(Avatar)
       className="emotion-0 emotion-1"
       classes={
         Object {
-          "colorDefault": "MuiAvatar-colorDefault-2",
-          "img": "MuiAvatar-img-3",
-          "root": "MuiAvatar-root-1",
+          "circle": "MuiAvatar-circle",
+          "colorDefault": "MuiAvatar-colorDefault",
+          "img": "MuiAvatar-img",
+          "root": "MuiAvatar-root",
+          "rounded": "MuiAvatar-rounded",
+          "square": "MuiAvatar-square",
         }
       }
-      component="div"
       status="Pending"
     >
       <div
-        className="MuiAvatar-root-1 MuiAvatar-colorDefault-2 emotion-0 emotion-1"
+        className="MuiAvatar-root MuiAvatar-circle emotion-0 emotion-1 MuiAvatar-colorDefault"
         status="Pending"
       >
         C
       </div>
-    </Avatar>
-  </WithStyles(Avatar)>
+    </ForwardRef(Avatar)>
+  </WithStyles(ForwardRef(Avatar))>
 </IssueAvatar>
 `;
 
@@ -41,27 +43,29 @@ exports[`issue-avatar: should render with #eee background 1`] = `
 }
 
 <IssueAvatar>
-  <WithStyles(Avatar)
+  <WithStyles(ForwardRef(Avatar))
     className="emotion-0 emotion-1"
   >
-    <Avatar
+    <ForwardRef(Avatar)
       className="emotion-0 emotion-1"
       classes={
         Object {
-          "colorDefault": "MuiAvatar-colorDefault-2",
-          "img": "MuiAvatar-img-3",
-          "root": "MuiAvatar-root-1",
+          "circle": "MuiAvatar-circle",
+          "colorDefault": "MuiAvatar-colorDefault",
+          "img": "MuiAvatar-img",
+          "root": "MuiAvatar-root",
+          "rounded": "MuiAvatar-rounded",
+          "square": "MuiAvatar-square",
         }
       }
-      component="div"
     >
       <div
-        className="MuiAvatar-root-1 MuiAvatar-colorDefault-2 emotion-0 emotion-1"
+        className="MuiAvatar-root MuiAvatar-circle emotion-0 emotion-1 MuiAvatar-colorDefault"
       >
         C
       </div>
-    </Avatar>
-  </WithStyles(Avatar)>
+    </ForwardRef(Avatar)>
+  </WithStyles(ForwardRef(Avatar))>
 </IssueAvatar>
 `;
 
@@ -73,30 +77,32 @@ exports[`issue-avatar: should render with #green background 1`] = `
 <IssueAvatar
   status="Closed"
 >
-  <WithStyles(Avatar)
+  <WithStyles(ForwardRef(Avatar))
     className="emotion-0 emotion-1"
     status="Closed"
   >
-    <Avatar
+    <ForwardRef(Avatar)
       className="emotion-0 emotion-1"
       classes={
         Object {
-          "colorDefault": "MuiAvatar-colorDefault-2",
-          "img": "MuiAvatar-img-3",
-          "root": "MuiAvatar-root-1",
+          "circle": "MuiAvatar-circle",
+          "colorDefault": "MuiAvatar-colorDefault",
+          "img": "MuiAvatar-img",
+          "root": "MuiAvatar-root",
+          "rounded": "MuiAvatar-rounded",
+          "square": "MuiAvatar-square",
         }
       }
-      component="div"
       status="Closed"
     >
       <div
-        className="MuiAvatar-root-1 MuiAvatar-colorDefault-2 emotion-0 emotion-1"
+        className="MuiAvatar-root MuiAvatar-circle emotion-0 emotion-1 MuiAvatar-colorDefault"
         status="Closed"
       >
         C
       </div>
-    </Avatar>
-  </WithStyles(Avatar)>
+    </ForwardRef(Avatar)>
+  </WithStyles(ForwardRef(Avatar))>
 </IssueAvatar>
 `;
 
@@ -108,29 +114,31 @@ exports[`issue-avatar: should render with #red background 1`] = `
 <IssueAvatar
   status="Open"
 >
-  <WithStyles(Avatar)
+  <WithStyles(ForwardRef(Avatar))
     className="emotion-0 emotion-1"
     status="Open"
   >
-    <Avatar
+    <ForwardRef(Avatar)
       className="emotion-0 emotion-1"
       classes={
         Object {
-          "colorDefault": "MuiAvatar-colorDefault-2",
-          "img": "MuiAvatar-img-3",
-          "root": "MuiAvatar-root-1",
+          "circle": "MuiAvatar-circle",
+          "colorDefault": "MuiAvatar-colorDefault",
+          "img": "MuiAvatar-img",
+          "root": "MuiAvatar-root",
+          "rounded": "MuiAvatar-rounded",
+          "square": "MuiAvatar-square",
         }
       }
-      component="div"
       status="Open"
     >
       <div
-        className="MuiAvatar-root-1 MuiAvatar-colorDefault-2 emotion-0 emotion-1"
+        className="MuiAvatar-root MuiAvatar-circle emotion-0 emotion-1 MuiAvatar-colorDefault"
         status="Open"
       >
         C
       </div>
-    </Avatar>
-  </WithStyles(Avatar)>
+    </ForwardRef(Avatar)>
+  </WithStyles(ForwardRef(Avatar))>
 </IssueAvatar>
 `;

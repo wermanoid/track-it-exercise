@@ -1,14 +1,12 @@
 module.exports = api => {
   api.cache(true);
   return {
-    sourceType: 'unambiguous',
-    compact: true,
     presets: [
       [
         '@babel/env',
         {
           useBuiltIns: 'usage',
-          corejs: 2,
+          corejs: 3,
           targets: {
             browsers: 'Last 2 Chrome versions, Firefox ESR',
             node: '8.14',
@@ -17,13 +15,7 @@ module.exports = api => {
       ],
       '@babel/typescript',
       ['@babel/react', { development: process.env.NODE_ENV !== 'production' }],
-      [
-        '@emotion/babel-preset-css-prop',
-        {
-          autoLabel: true,
-          labelFormat: '[local]',
-        },
-      ],
+      '@emotion/babel-preset-css-prop',
     ],
     plugins: [
       'react-hot-loader/babel',
@@ -45,17 +37,14 @@ module.exports = api => {
         },
       ],
       ['webpack-alias', { config: './config/webpack/resolvers.js' }],
-      ['@babel/transform-runtime', { corejs: 2 }],
+      ['@babel/transform-runtime', { corejs: 3 }],
       ['@babel/plugin-proposal-decorators', { legacy: true }],
-      ['@babel/plugin-proposal-class-properties', { loose: true }],
+      '@babel/plugin-proposal-class-properties',
       '@babel/plugin-syntax-dynamic-import',
     ],
     env: {
       production: {
         plugins: ['closure-elimination'],
-      },
-      development: {
-        plugins: [['emotion', { sourceMap: true }]],
       },
     },
   };
