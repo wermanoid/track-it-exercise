@@ -39,8 +39,10 @@ module.exports = {
     'import/named': 'off',
     'react/prop-types': 'off',
     'no-console': ['warn'],
-    "import/no-extraneous-dependencies": ["error", {
-      devDependencies: ["**/*.test.ts{,x}", "**/*.spec.ts{,x}", "**/*.story.ts{,x}"]
+    '@typescript-eslint/explicit-function-return-type': 'off',
+    '@typescript-eslint/no-unused-vars': ['warn', {'argsIgnorePattern': '^_'}],
+    'import/no-extraneous-dependencies': ['error', {
+      devDependencies: ['**/*.test.ts{,x}', '**/*.spec.ts{,x}', '**/*.story.ts{,x}']
     }]
   },
 };

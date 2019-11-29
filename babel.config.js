@@ -8,8 +8,7 @@ module.exports = api => {
           useBuiltIns: 'usage',
           corejs: 3,
           targets: {
-            browsers: 'Last 2 Chrome versions, Firefox ESR',
-            node: '8.14',
+            node: 'current',
           },
         },
       ],
