@@ -4,15 +4,11 @@ type Aggregated<T> = {
   Left: Left<T>;
   Either: Either<T>;
   Maybe: Maybe<T>;
-  MonadJust: MonadJust<T>;
+  Just: Just<T>;
   Nothing: Nothing;
   MonadIO: MonadIO<T>;
   Task: Task<T>;
 };
-
-export interface MonadContainer<T> {
-  readonly tag: keyof Aggregated<unknown>;
-}
 
 export type Monads = keyof Aggregated<unknown>;
 export type MonadOf<$ extends Monads, T> = Aggregated<T>[$];
@@ -20,10 +16,14 @@ export type MonadOf<$ extends Monads, T> = Aggregated<T>[$];
 export type FIn<T> = T extends (x: infer X) => any ? X : never;
 export type FOut<T> = T extends (x: any) => infer Y ? Y : never;
 
-export interface Applicative<T> {
-  ap: <M extends MonadContainer<FIn<T>>>(
-    m: M extends MonadContainer<FIn<T>> ? M : never
-  ) => MonadOf<M['tag'], FOut<T>>;
+export interface MonadContainer<T> {
+  readonly tag: Monads;
+}
+
+export interface Applicative<T, Mtype extends Monads> {
+  ap: <M extends MonadOf<Mtype, FIn<T>>>(
+    m: M extends MonadOf<Mtype, FIn<T>> ? M : never
+  ) => MonadOf<Mtype, FOut<T>>;
 }
 export interface Functor<T, MType extends Monads> {
   map: <R>(transform: (x: T) => R) => MonadOf<MType, R>;
@@ -42,7 +42,7 @@ export interface Either<T>
   extends MonadContainer<T>,
     Functor<T, 'Either'>,
     Monad<T>,
-    Applicative<T> {
+    Applicative<T, 'Either'> {
   readonly $value: T;
   readonly tag: 'Either';
 }
@@ -50,7 +50,7 @@ export interface Right<T>
   extends MonadContainer<T>,
     Functor<T, 'Right'>,
     Monad<T>,
-    Applicative<T> {
+    Applicative<T, 'Right'> {
   readonly $value: T;
   readonly tag: 'Right';
 }
@@ -58,7 +58,7 @@ export interface Left<T>
   extends MonadContainer<T>,
     Functor<T, 'Left'>,
     Monad<T>,
-    Applicative<T> {
+    Applicative<T, 'Left'> {
   readonly $value: T;
   readonly tag: 'Left';
 }
@@ -67,23 +67,25 @@ export interface Maybe<T>
   extends MonadContainer<T>,
     Functor<T, 'Maybe'>,
     Monad<T>,
-    Applicative<T> {
+    Applicative<T, 'Maybe'> {
   readonly $value: T;
   readonly tag: 'Maybe';
 }
 export interface MonadJust<T>
   extends MonadContainer<T>,
-    Functor<T, 'MonadJust'>,
+    Functor<T, 'Just'>,
     Monad<T>,
-    Applicative<T> {
+    Applicative<T, 'Just'> {
   readonly $value: T;
-  readonly tag: 'MonadJust';
+  readonly tag: 'Just';
   chain: <R>(transform: (x: T) => R) => R;
+  join: () => T extends Just<unknown> ? T : never;
+  // ap: <M extends Just<FIn<T>>>(m: M) => Just<FOut<T>>;
 }
 export interface Nothing
   extends Functor<unknown, 'Nothing'>,
     Monad<unknown>,
-    Applicative<unknown> {
+    Applicative<unknown, Monads> {
   readonly $value: never;
   readonly tag: 'Nothing';
 }
@@ -91,19 +93,20 @@ export interface Nothing
 export interface MonadIO<T>
   extends MonadContainer<T>,
     Functor<T, 'MonadIO'>,
-    Monad<T> {
+    Monad<T>,
+    Applicative<T, 'MonadIO'> {
   readonly tag: 'MonadIO';
   unsafePerformIO: () => T;
   chain: <R>(transform: (x: T) => R) => MonadIO<R>;
-  ap: <M extends MonadContainer<FIn<T>> & Functor<FIn<T>, Monads>>(
-    m: M extends MonadContainer<FIn<T>> ? M : never
-  ) => MonadIO<FOut<T>>;
+  // ap: <M extends MonadContainer<FIn<T>> & Functor<FIn<T>, Monads>>(
+  //   m: M extends MonadContainer<FIn<T>> ? M : never
+  // ) => MonadIO<FOut<T>>;
 }
 export interface Task<T>
   extends MonadContainer<T>,
     Functor<T, 'Task'>,
     Monad<T>,
-    Applicative<T> {
+    Applicative<T, 'Task'> {
   readonly $value: T;
   readonly tag: 'Task';
 }
@@ -202,11 +205,13 @@ export class IO<T> implements MonadIO<T> {
 }
 
 export class Just<T> extends Container<T> implements MonadJust<T> {
-  static of = <U>(value: U): MonadJust<U> => new Just<U>(value);
-  readonly tag = 'MonadJust' as const;
+  static of = <U>(value: U): Just<U> => new Just<U>(value);
+  readonly tag = 'Just' as const;
 
-  map = f => Just.of(f(this.$value));
-  chain = f => (this.map(f) as Just<T>).join();
-  ap = m => this.chain(val => m.map(val)); //m.map(this.$value);
-  join = () => this.$value;
+  map = <R>(f: (x: T) => R) => Just.of(f(this.$value));
+  chain = <R>(f: (x: T) => R): R => this.map(f).join();
+  ap: MonadJust<T>['ap'] = m => this.chain(val => m.map(val as any));
+  // <M extends Just<FIn<T>>>(m: M) =>
+  //   this.chain(val => m.map((val as unknown) as (x: FIn<T>) => FOut<T>));
+  join = (): T extends Just<unknown> ? T : never => this.$value as any;
 }

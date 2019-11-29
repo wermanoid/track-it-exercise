@@ -78,6 +78,9 @@ describe('monads samples?', () => {
       .ap(Just.of('OMG, Horror'));
 
     const rr = jF.map(Just.of).join();
+    const rNever = jF.join();
+
+    const jMap = Just.of('Example').map(r => r.length > 4);
 
     console.log(jF);
 
