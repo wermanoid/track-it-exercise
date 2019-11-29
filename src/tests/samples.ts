@@ -63,7 +63,7 @@ export interface Left<T>
   readonly tag: 'Left';
 }
 
-export interface Maybe<T>
+export interface MonadMaybe<T>
   extends MonadContainer<T>,
     Functor<T, 'Maybe'>,
     Monad<T>,
@@ -79,14 +79,14 @@ export interface MonadJust<T>
   readonly $value: T;
   readonly tag: 'Just';
   chain: <R>(transform: (x: T) => R) => R;
-  join: () => T extends Just<unknown> ? T : never;
+  join: () => T;
   // ap: <M extends Just<FIn<T>>>(m: M) => Just<FOut<T>>;
 }
-export interface Nothing
+export interface MonadNothing
   extends Functor<unknown, 'Nothing'>,
     Monad<unknown>,
     Applicative<unknown, Monads> {
-  readonly $value: never;
+  readonly $value: null;
   readonly tag: 'Nothing';
 }
 
@@ -122,23 +122,14 @@ type SwapMonadType<T, R> = T extends { tag: Monads }
   ? R[]
   : never;
 
-type MappedToTransformation<T, R> = T extends {
-  map: (f: (x: infer X) => any) => any;
-}
-  ? (x: X) => R
-  : never;
-
 export interface Map {
   <T, R>(transform: (x: T) => R): <U extends Functor<T, Monads> | T[]>(
     funktor: U
   ) => SwapMonadType<U, R>;
-  // <T, R>(transform: MappedToTransformation<T, R>): (
-  //   funktor: T
-  // ) => SwapMonadType<T, R>;
-  <T, R>(transform: MappedToTransformation<T, R>, funktor: T): SwapMonadType<
-    T,
-    R
-  >;
+  <T, R>(
+    transform: (x: T) => R,
+    funktor: Functor<T, Monads> | T[]
+  ): SwapMonadType<T, R>;
 }
 
 export interface Chain {
@@ -213,5 +204,21 @@ export class Just<T> extends Container<T> implements MonadJust<T> {
   ap: MonadJust<T>['ap'] = m => this.chain(val => m.map(val as any));
   // <M extends Just<FIn<T>>>(m: M) =>
   //   this.chain(val => m.map((val as unknown) as (x: FIn<T>) => FOut<T>));
-  join = (): T extends Just<unknown> ? T : never => this.$value as any;
+  join = (): T => this.$value;
+}
+
+export class Nothing extends Container<null> implements MonadNothing {
+  static of = <T>(_: T) => new Nothing(null);
+  readonly tag = 'Nothing' as const;
+  $value = null;
+  map = _ => this;
+  chain = _ => this;
+  ap = _ => this;
+  join = _ => this;
+}
+
+export class Maybe<T> extends Container<T> implements MonadMaybe<T> {
+  static of = <T>(x: T) =>
+    x === null || x === undefined ? Nothing.of(null) : Just.of(x);
+  readonly tag = 'Maybe' as const;
 }

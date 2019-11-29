@@ -9,6 +9,7 @@ import {
   Functor,
   Monads,
   chain,
+  Nothing,
 } from './samples';
 
 describe('monads samples?', () => {
@@ -53,7 +54,7 @@ describe('monads samples?', () => {
     const csvIO = IO.of((arr: number[]) => arr.join(','));
 
     const t = map((x: number) => x + 2);
-    const t2 = chain((x: number) => x + 2);
+    const t2 = chain((x: number) => Just.of(x + 2));
     const r = t([1, 2, 3, 4]);
     const r2 = t2(Just.of(2345));
 
@@ -78,11 +79,14 @@ describe('monads samples?', () => {
       .ap(Just.of('OMG, Horror'));
 
     const rr = jF.map(Just.of).join();
-    const rNever = jF.join();
+    // const rNever = jF.join();
 
-    const jMap = Just.of('Example').map(r => r.length > 4);
+    const jMap = Just.of('Example')
+      .map(r => r.length > 4)
+      .chain(Nothing.of)
+      .map(x => x + 2);
 
-    console.log(jF);
+    console.log(jMap);
 
     // let x!: Just<number>;
     // //
