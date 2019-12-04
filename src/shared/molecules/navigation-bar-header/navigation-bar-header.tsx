@@ -3,11 +3,11 @@ import { IconButton, Typography } from '@material-ui/core';
 
 const NavigationBarHeader: React.FC<{
   title: string;
-  icon: React.ReactElement;
+  icon: React.ReactElement | null;
 }> = ({ title, icon }) => (
   <>
-    <IconButton color="inherit">{icon}</IconButton>
-    <Typography variant="h6" noWrap>
+    {icon}
+    <Typography variant="h6" noWrap css={{ cursor: 'default' }}>
       {title}
     </Typography>
   </>

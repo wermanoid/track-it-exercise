@@ -25,7 +25,7 @@ const viewport = {
   ...flexColumn,
   minHeight: '100%',
   padding: '1rem',
-  backgroundColor: '#eee',
+  backgroundColor: '#fff',
 };
 
 const overflowView = { height: '100%', overflow: 'auto' };

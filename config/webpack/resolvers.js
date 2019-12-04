@@ -6,7 +6,7 @@
 const path = require('path');
 const fs = require('fs');
 const rootpath = fs.realpathSync(process.cwd());
-const src = (dir) => path.join(rootpath, 'src', dir);
+const src = dir => path.join(rootpath, 'src', dir);
 
 module.exports = {
   resolve: {

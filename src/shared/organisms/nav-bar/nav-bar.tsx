@@ -102,7 +102,7 @@
 
 // export default NavBar;
 
-import React from 'react';
+import React, { useState } from 'react';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import {
   Tab,
@@ -118,46 +118,73 @@ import {
 import { Image, Menu, Close } from '@material-ui/icons';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 
+import { withRouting } from '#shared/hoc';
 import NavigationBar from '#shared/atoms/navigation-bar';
-import NavigationBarHeader from '#shared/atoms/navigation-bar-header';
+import NavigationBarHeader from '#shared/molecules/navigation-bar-header';
 
-const MobileBar = ({ title }) => (
+const MobileBar = withRouting(({ title, goTo }) => {
+  const [navOpen, setNavOpen] = useState(false);
+
+  const closeDrawer = () => setNavOpen(false);
+
+  return (
+    <>
+      <NavigationBarHeader
+        title={title}
+        icon={
+          <IconButton onClick={() => setNavOpen(true)} color="inherit">
+            {<Menu />}
+          </IconButton>
+        }
+      />
+      <Drawer open={navOpen}>
+        <div css={{ width: '250px', display: 'flex', paddingLeft: '1rem' }}>
+          <Typography variant="h4" css={{ flex: 1 }}>
+            Navigation
+          </Typography>
+          <IconButton onClick={closeDrawer}>
+            <Close />
+          </IconButton>
+        </div>
+        <Divider />
+        <List>
+          <ListItem button onClick={goTo('/', closeDrawer)}>
+            Home
+          </ListItem>
+          <ListItem button onClick={goTo('/dashboard', closeDrawer)}>
+            Board
+          </ListItem>
+        </List>
+      </Drawer>
+    </>
+  );
+});
+
+const DesktopBar = withRouting(({ title, goTo, actualPath }) => (
   <>
-    <NavigationBarHeader title={title} icon={<Menu />} />
-    <Drawer open>
-      <div css={{ width: '250px', display: 'flex', paddingLeft: '1rem' }}>
-        <Typography variant="h4" css={{ flex: 1 }}>
-          Navigation
-        </Typography>
-        <IconButton>
-          <Close />
+    <NavigationBarHeader
+      title={title}
+      icon={
+        <IconButton onClick={goTo('/')} color="inherit">
+          {<Image />}
         </IconButton>
-      </div>
-      <Divider />
-      <List>
-        <ListItem>One</ListItem>
-        <ListItem>Two</ListItem>
-      </List>
-    </Drawer>
-  </>
-);
-
-const DesktopBar = ({ title }) => (
-  <>
-    <NavigationBarHeader title={title} icon={<Image />} />
-    <Tabs variant="standard" value={1}>
-      <Tab value={1} label="One" />
-      <Tab value={2} label="Two" />
+      }
+    />
+    <Tabs variant="standard" value={actualPath}>
+      <Tab value="/" label="Home" onClick={goTo('/')} />
+      <Tab value="/dashboard" label="Board" onClick={goTo('/dashboard')} />
     </Tabs>
   </>
-);
+));
 
 const NavBar = ({ title = 'TestApp' }) => {
-  const matches = useMediaQuery((theme: Theme) => theme.breakpoints.down('xs'));
+  const isMobiles = useMediaQuery((theme: Theme) =>
+    theme.breakpoints.down('xs')
+  );
   return (
     <AppBar position="static">
       <NavigationBar>
-        {matches ? <MobileBar title={title} /> : <DesktopBar title={title} />}
+        {isMobiles ? <MobileBar title={title} /> : <DesktopBar title={title} />}
       </NavigationBar>
     </AppBar>
   );

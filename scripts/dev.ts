@@ -25,7 +25,7 @@ const start = async () => {
   rimraf.sync(build.server);
 
   const { client, server } = webpackConfig(
-    config.get<'development' | 'production'>('env'),
+    config.get<'development' | 'production'>('env')
   );
 
   try {
@@ -34,11 +34,14 @@ const start = async () => {
       entry: {
         ...client.entry,
         client: [
+          'react-hot-loader/patch',
           `webpack-hot-middleware/client?path=${host}:${webpackPort}/__webpack_hmr&timeout=20000`,
           ...client.entry.client,
         ],
       },
     };
+
+    clientConfig.resolve.alias['react-dom'] = '@hot-loader/react-dom';
 
     clientConfig.output.hotUpdateMainFilename =
       'updates/[hash].hot-update.json';
@@ -55,7 +58,7 @@ const start = async () => {
 
     const multi = webpack([clientConfig, server]);
     const clientCompiler = find({ name: 'client' }, multi.compilers)!;
-    const serverCompiler = find({ name: 'server' }, multi.compilers)!;
+    // const serverCompiler = find({ name: 'server' }, multi.compilers)!;
 
     const watchOptions = {
       // poll: true,
@@ -68,7 +71,7 @@ const start = async () => {
         watchOptions,
         stats: clientConfig.stats,
         publicPath: clientConfig.output.publicPath,
-      }),
+      })
     );
 
     app.use(
@@ -76,18 +79,18 @@ const start = async () => {
         log: logMessage,
         path: '/__webpack_hmr',
         heartbeat: 10 * 1000,
-      }),
+      })
     );
 
     app.use(publicPath, express.static(build.client));
 
     app.listen(webpackPort);
 
-    compileAndWatch(serverCompiler, watchOptions);
+    // compileAndWatch(serverCompiler, watchOptions);
 
     await Promise.all([
       compilerPromise('client', clientCompiler),
-      compilerPromise('server', serverCompiler),
+      // compilerPromise('server', serverCompiler),
     ]);
   } catch (e) {
     logMessage(e, 'error');
@@ -95,9 +98,10 @@ const start = async () => {
 
   const script = nodemon({
     ...require('../nodemon.json'),
-    script: `${build.server}/index.js`,
-    ignore: ['src', 'scripts', 'config', './*.*', 'dist/client'],
-    watch: [`${build.server}/index.js`],
+    script: './src/server/index.ts',
+    // script: `${build.server}/index.js`,
+    // ignore: ['src', 'scripts', 'config', './*.*', 'dist/client'],
+    // watch: [`${build.server}/index.js`],
   });
 
   script.on('restart', () => {
