@@ -2,6 +2,7 @@ module.exports = api => {
   api.cache(true);
   return {
     presets: [
+      '@babel/typescript',
       [
         '@babel/env',
         {
@@ -12,7 +13,7 @@ module.exports = api => {
           },
         },
       ],
-      '@babel/typescript',
+
       ['@babel/react', { development: process.env.NODE_ENV !== 'production' }],
       '@emotion/babel-preset-css-prop',
     ],

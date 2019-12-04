@@ -198,6 +198,7 @@ export class IO<T> implements MonadIO<T> {
 export class Just<T> extends Container<T> implements MonadJust<T> {
   static of = <U>(value: U): Just<U> => new Just<U>(value);
   readonly tag = 'Just' as const;
+  readonly isNothing: boolean = false;
 
   map = <R>(f: (x: T) => R) => Just.of(f(this.$value));
   chain = <R>(f: (x: T) => R): R => this.map(f).join();
@@ -218,7 +219,18 @@ export class Nothing extends Container<null> implements MonadNothing {
 }
 
 export class Maybe<T> extends Container<T> implements MonadMaybe<T> {
-  static of = <T>(x: T) =>
-    x === null || x === undefined ? Nothing.of(null) : Just.of(x);
+  static of = <U>(x: U) => new Maybe<U>(x);
   readonly tag = 'Maybe' as const;
+  get isNothing() {
+    return this.$value === null || this.$value === undefined;
+  }
+
+  map = f => (this.isNothing ? this : Maybe.of(f(this.$value)));
+
+  chain = <R>(f: (x: T) => R): Maybe<R> =>
+    this.isNothing ? this : this.map(f).join();
+
+  ap = m => (this.isNothing ? this : this.chain(val => m.map(val as any)));
+
+  join = () => (this.isNothing ? this : this.$value);
 }

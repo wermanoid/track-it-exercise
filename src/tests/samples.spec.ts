@@ -83,7 +83,7 @@ describe('monads samples?', () => {
 
     const jMap = Just.of('Example')
       .map(r => r.length > 4)
-      .chain(Nothing.of)
+      .chain(Maybe.of)
       .map(x => x + 2);
 
     console.log(jMap);
