@@ -35,6 +35,8 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         <base href="/" />
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
         ${scripts}
       </head>
       <body>

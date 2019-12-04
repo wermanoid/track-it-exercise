@@ -117,15 +117,25 @@ import {
 } from '@material-ui/core';
 import { Image, Menu, Close } from '@material-ui/icons';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
+import { makeStyles } from '@material-ui/core/styles';
 
 import { withRouting } from '#shared/hoc';
 import NavigationBar from '#shared/atoms/navigation-bar';
 import NavigationBarHeader from '#shared/molecules/navigation-bar-header';
 
-const MobileBar = withRouting(({ title, goTo }) => {
-  const [navOpen, setNavOpen] = useState(false);
+const useStyles = makeStyles({
+  selectedNav: {
+    backgroundColor: 'rgba(0,0,0,0.1)',
+  },
+});
 
+const MobileBar = withRouting(({ title, goTo, actualPath }) => {
+  const [navOpen, setNavOpen] = useState(false);
   const closeDrawer = () => setNavOpen(false);
+  const { selectedNav } = useStyles();
+  const getActiveItemClass = (active: boolean) => {
+    if (active) return selectedNav;
+  };
 
   return (
     <>
@@ -148,10 +158,18 @@ const MobileBar = withRouting(({ title, goTo }) => {
         </div>
         <Divider />
         <List>
-          <ListItem button onClick={goTo('/', closeDrawer)}>
+          <ListItem
+            button
+            onClick={goTo('/', closeDrawer)}
+            className={getActiveItemClass(actualPath === '/')}
+          >
             Home
           </ListItem>
-          <ListItem button onClick={goTo('/dashboard', closeDrawer)}>
+          <ListItem
+            button
+            onClick={goTo('/dashboard', closeDrawer)}
+            className={getActiveItemClass(actualPath === '/dashboard')}
+          >
             Board
           </ListItem>
         </List>
