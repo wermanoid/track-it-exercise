@@ -12,10 +12,11 @@ const globalStyles = css`
   }
 `;
 
-const Header = () => <NavBar title="TrackIt" />;
+const Header = () => <NavBar title="TestApp" />;
+const Footer = () => <div css={{ textAlign: 'center' }}>This is footer ©</div>;
 
 const App = () => (
-  <Layout header={Header}>
+  <Layout header={Header} footer={Footer}>
     <Global styles={globalStyles} />
     <Routes />
   </Layout>

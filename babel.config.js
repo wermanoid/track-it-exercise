@@ -25,6 +25,10 @@ module.exports = api => {
             transform: '@material-ui/core/${member}',
             preventFullImport: true,
           },
+          '@material-ui/icons': {
+            transform: '@material-ui/icons/${member}',
+            preventFullImport: true,
+          },
           'lodash/fp': {
             transform: 'lodash/fp/${member}',
             preventFullImport: true,
@@ -40,6 +44,8 @@ module.exports = api => {
       ['@babel/plugin-proposal-decorators', { legacy: true }],
       '@babel/plugin-proposal-class-properties',
       '@babel/plugin-syntax-dynamic-import',
+      '@babel/plugin-proposal-optional-chaining',
+      '@babel/plugin-proposal-nullish-coalescing-operator',
     ],
     env: {
       production: {
