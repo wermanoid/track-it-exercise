@@ -110,7 +110,6 @@ import {
   List,
   AppBar,
   Drawer,
-  Toolbar,
   Divider,
   ListItem,
   IconButton,
@@ -119,14 +118,12 @@ import {
 import { Image, Menu, Close } from '@material-ui/icons';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 
+import NavigationBar from '#shared/atoms/navigation-bar';
+import NavigationBarHeader from '#shared/atoms/navigation-bar-header';
+
 const MobileBar = ({ title }) => (
   <>
-    <IconButton color="inherit">
-      <Menu />
-    </IconButton>
-    <Typography variant="h6" noWrap>
-      {title}
-    </Typography>
+    <NavigationBarHeader title={title} icon={<Menu />} />
     <Drawer open>
       <div css={{ width: '250px', display: 'flex', paddingLeft: '1rem' }}>
         <Typography variant="h4" css={{ flex: 1 }}>
@@ -147,12 +144,7 @@ const MobileBar = ({ title }) => (
 
 const DesktopBar = ({ title }) => (
   <>
-    <IconButton color="inherit">
-      <Image />
-    </IconButton>
-    <Typography variant="h6" noWrap>
-      {title}
-    </Typography>
+    <NavigationBarHeader title={title} icon={<Image />} />
     <Tabs variant="standard" value={1}>
       <Tab value={1} label="One" />
       <Tab value={2} label="Two" />
@@ -164,12 +156,9 @@ const NavBar = ({ title = 'TestApp' }) => {
   const matches = useMediaQuery((theme: Theme) => theme.breakpoints.down('xs'));
   return (
     <AppBar position="static">
-      <Toolbar
-        variant="dense"
-        css={{ maxWidth: '1280px', margin: 'auto', width: '100%' }}
-      >
+      <NavigationBar>
         {matches ? <MobileBar title={title} /> : <DesktopBar title={title} />}
-      </Toolbar>
+      </NavigationBar>
     </AppBar>
   );
 };
